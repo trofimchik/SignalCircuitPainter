@@ -6,7 +6,28 @@
         xmlns:local="clr-namespace:SignalCircuitPainter"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:ViewModel></local:ViewModel>
+    </Window.DataContext>
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="6*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="test" Grid.Row="0" Grid.Column="1" Text="{Binding InputEncoding, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+        <TextBox x:Name="test2" Grid.Row="1" Grid.Column="1" Background="AliceBlue" Text="{Binding OutputEncoding, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <RadioButton GroupName="Encoding" Content="UTF7" Command="{Binding SetEncoding}" CommandParameter="UTF7"></RadioButton>
+            <RadioButton GroupName="Encoding" Content="UTF8" Command="{Binding SetEncoding}" CommandParameter="UTF8" ></RadioButton>
+            <RadioButton GroupName="Encoding" Content="UTF16" IsChecked="True" Command="{Binding SetEncoding}" CommandParameter="UTF16"></RadioButton>
+            <RadioButton GroupName="Encoding" Content="UTF32" Command="{Binding SetEncoding}" CommandParameter="UTF32" ></RadioButton>
+            <RadioButton GroupName="Encoding" Content="ASCII" Command="{Binding SetEncoding}" CommandParameter="ASCII"></RadioButton>
+        </StackPanel>
     </Grid>
 </Window>
