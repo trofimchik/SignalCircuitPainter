@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using StringToBinaryConverter;
+using DrawingDigitalCodingOnCanvas;
+
 namespace SignalCircuitPainter
 {
     class ViewModel : INotifyPropertyChanged
     {
+        public ObservableCollection<LineByPoints> LinesCoordinates { get; set; } = BipolarCodeAMI.GetAllLinesCoordinates("10011001 1010011100011010110101");
+        public ViewModel()
+        {
+            
+            //if(test != null)
+            //MessageBox.Show(test.Count.ToString() + " and " + test[2].First.X.ToString() + " " + test[2].First.Y.ToString());
+        }
         //public Func<string, Encoding, string> GetEncodedString = BinaryConverterLogic.GetBinaryString;
         public Encoding EncodingProp { get; set; } = Encoding.UTF8;
 
@@ -51,7 +61,7 @@ namespace SignalCircuitPainter
         private string inputEncoding;
         public string InputEncoding
         {
-            get { return inputEncoding; }
+            private get { return inputEncoding; }
             set
             {
                 inputEncoding = value;

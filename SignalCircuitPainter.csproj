@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DrawingDigitalCodingOnCanvas\DrawingDigitalCodingOnCanvas.csproj" />
     <ProjectReference Include="..\StringToBinaryConverter\StringToBinaryConverter.csproj" />
   </ItemGroup>
 
