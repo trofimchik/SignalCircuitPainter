@@ -11,48 +11,55 @@
     </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition ></ColumnDefinition>
-            <ColumnDefinition Width="6*"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="700"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="7*"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InputEncoding, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
-        <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <ItemsControl ItemsSource="{Binding LinesCoordinates}">
+
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InputEncoding, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF7" Content="UTF7"></RadioButton>
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF8" Content="UTF8"></RadioButton>
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF16" Content="UTF16" IsChecked="True"></RadioButton>
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF32" Content="UTF32"></RadioButton>
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="ASCII" Content="ASCII"></RadioButton>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1"  ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ItemsControl x:Name="Container" ItemsSource="{Binding LinesCoordinates}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas DataContext="{Binding Source=Count}" Background="AliceBlue" Width="2000" Height="100"/>
+                        <Canvas  Background="AliceBlue"  
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Left"
+                                 Width="{Binding Path=DataContext.CanvasWidth, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                 Height="{Binding Path=DataContext.CanvasHeight, RelativeSource={RelativeSource AncestorType=Window}}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Line X1="{Binding First.X}" Y1="{Binding First.Y}" X2="{Binding Second.X}" Y2="{Binding Second.Y}" Stroke="Black" StrokeThickness="1"></Line>
+                        <Line X1="{Binding First.X}" Y1="{Binding First.Y}" X2="{Binding Second.X}" Y2="{Binding Second.Y}" Stroke="Black" StrokeThickness="{Binding StrokeThickness}"></Line>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
         
-        <TextBox Grid.Row="2" Grid.Column="1" Background="AliceBlue" 
-                 Text="{Binding OutputEncoding, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
-        
-        <StackPanel Grid.Row="1" Grid.Column="0">
-            <RadioButton GroupName="Encoding" Content="UTF7" Command="{Binding SetEncoding}" CommandParameter="UTF7"></RadioButton>
-            <RadioButton GroupName="Encoding" Content="UTF8" Command="{Binding SetEncoding}" CommandParameter="UTF8" ></RadioButton>
-            <RadioButton GroupName="Encoding" Content="UTF16" IsChecked="True" Command="{Binding SetEncoding}" CommandParameter="UTF16"></RadioButton>
-            <RadioButton GroupName="Encoding" Content="UTF32" Command="{Binding SetEncoding}" CommandParameter="UTF32" ></RadioButton>
-            <RadioButton GroupName="Encoding" Content="ASCII" Command="{Binding SetEncoding}" CommandParameter="ASCII"></RadioButton>
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="NRZ" Content="Potential Code NRZ"></RadioButton>
+            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="AMI" Content="Bipolar Code AMI" IsChecked="True"></RadioButton>
+            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="BipolarPulse" Content="Bipolar Pulse Code"></RadioButton>
+            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="Manchester" Content="Manchester Code"></RadioButton>
+            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="2B1Q" Content="Potential Code 2B1Q"></RadioButton>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2">
-            <RadioButton GroupName="SygnalType" Content="qwer"></RadioButton>
-            <RadioButton GroupName="SygnalType" Content="Bipolar Code AMI"></RadioButton>
-            <RadioButton GroupName="SygnalType" Content="asdf"></RadioButton>
-            <RadioButton GroupName="SygnalType" Content="zxcv" ></RadioButton>
-            <RadioButton GroupName="SygnalType" Content="1234"></RadioButton>
-        </StackPanel>
+        <ScrollViewer Grid.Row="2" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <TextBlock Background="AliceBlue" Text="{Binding OutputEncoding}"></TextBlock>
+        </ScrollViewer>
     </Grid>
 </Window>

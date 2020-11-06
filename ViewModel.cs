@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
+using System.Drawing;
 using StringToBinaryConverter;
 using DrawingDigitalCodingOnCanvas;
 
@@ -12,15 +13,76 @@ namespace SignalCircuitPainter
 {
     class ViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<LineByPoints> LinesCoordinates { get; set; } = BipolarCodeAMI.GetAllLinesCoordinates("10011001 1010011100011010110101");
         public ViewModel()
         {
-            
-            //if(test != null)
-            //MessageBox.Show(test.Count.ToString() + " and " + test[2].First.X.ToString() + " " + test[2].First.Y.ToString());
         }
-        //public Func<string, Encoding, string> GetEncodedString = BinaryConverterLogic.GetBinaryString;
+
+        public ObservableCollection<LineByPoints> Layout { get; set; } = new ObservableCollection<LineByPoints>();
+        public ObservableCollection<LineByPoints> LinesCoordinates { get; set; }
+        Func<string, ObservableCollection<LineByPoints>> SignalProp { get; set; } = BipolarCodeAMI.GetAllLinesCoordinates;
+
+        private IDelegateCommand setSignalType;
+        public IDelegateCommand SetSignalType
+        {
+            get
+            {
+                return setSignalType ??= new DelegateCommand(
+                   parameter =>
+                   {
+                       string type = parameter as string;
+                       switch (type)
+                       {
+                           case "NRZ":
+                               break;
+                           case "AMI":
+                               SignalProp = BipolarCodeAMI.GetAllLinesCoordinates;
+                               break;
+                           case "BipolarPulse":
+                               break;
+                           case "Manchester":
+                               break;
+                           case "2B1Q":
+                               break;
+                           default:
+                               break;
+                       }
+                       OnPropertyChanged("LinesCoordinates");
+                   });
+            }
+        }
+
+        public int CanvasWidth { get; set; }
+        public int CanvasHeight { get; set; }
+
+        public string OutputEncoding { get; set; }
         public Encoding EncodingProp { get; set; } = Encoding.UTF8;
+        private string inputEncoding;
+        public string InputEncoding
+        {
+            private get { return inputEncoding; }
+            set
+            {
+                inputEncoding = value;
+                OutputEncoding = BinaryConverterLogic.GetBinaryString(InputEncoding, EncodingProp);
+                OnPropertyChanged("OutputEncoding");
+
+                LinesCoordinates = SignalProp(OutputEncoding);
+
+                CanvasWidth = OutputEncoding.Replace(" ", string.Empty).Length * Overall.HorizontalLineSize;
+                CanvasHeight = Overall.VerticalLineSize * 4;
+
+                int temp = 0;
+                foreach (char c in OutputEncoding.Replace(" ", string.Empty))
+                {
+                    LinesCoordinates.Add(new LineByPoints(new System.Drawing.Point(temp, 0), new System.Drawing.Point(temp, CanvasHeight), 0.5));
+                    temp += Overall.HorizontalLineSize;
+                }
+
+                OnPropertyChanged("LinesCoordinates");
+                OnPropertyChanged("CanvasWidth");
+                OnPropertyChanged("CanvasHeight");
+            }
+        }
 
         private IDelegateCommand setEncoding;
         public IDelegateCommand SetEncoding
@@ -54,27 +116,16 @@ namespace SignalCircuitPainter
                        }
                        OutputEncoding = BinaryConverterLogic.GetBinaryString(InputEncoding, EncodingProp);
                        OnPropertyChanged("OutputEncoding");
+                       OnPropertyChanged("LinesCoordinates");
                    });
             }
         }
 
-        private string inputEncoding;
-        public string InputEncoding
-        {
-            private get { return inputEncoding; }
-            set
-            {
-                inputEncoding = value;
-                OutputEncoding = BinaryConverterLogic.GetBinaryString(InputEncoding, EncodingProp);
-                OnPropertyChanged("OutputEncoding");
-            }
-        }
 
-        public string OutputEncoding { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        
+
     }
 }
