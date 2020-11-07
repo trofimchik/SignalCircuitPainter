@@ -5,49 +5,66 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SignalCircuitPainter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="1000">
+        Title="MainWindow" Height="200" Width="920" ResizeMode="NoResize">
     <Window.DataContext>
         <local:ViewModel></local:ViewModel>
     </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="70"></ColumnDefinition>
             <ColumnDefinition Width="700"></ColumnDefinition>
             <ColumnDefinition Width="150"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
+            <RowDefinition ></RowDefinition>
             <RowDefinition Height="7*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InputEncoding, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-        <StackPanel Grid.Row="1" Grid.Column="0">
-            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF7" Content="UTF7"></RadioButton>
-            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF8" Content="UTF8"></RadioButton>
-            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF16" Content="UTF16" IsChecked="True"></RadioButton>
-            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF32" Content="UTF32"></RadioButton>
-            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="ASCII" Content="ASCII"></RadioButton>
+        <StackPanel Grid.Row="1">
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF7" Content="UTF7" FlowDirection="RightToLeft"></RadioButton>
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF8" Content="UTF8" FlowDirection="RightToLeft"></RadioButton>
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF16" Content="UTF16" FlowDirection="RightToLeft" IsChecked="True"></RadioButton>
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="UTF32" Content="UTF32" FlowDirection="RightToLeft"></RadioButton>
+            <RadioButton GroupName="Encoding" Command="{Binding SetEncoding}" CommandParameter="ASCII" Content="ASCII" FlowDirection="RightToLeft"></RadioButton>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" Grid.Column="1"  ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Hidden">
-            <ItemsControl x:Name="Container" ItemsSource="{Binding LinesCoordinates}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas  Background="AliceBlue"  
+            <StackPanel Orientation="Vertical">
+                <ItemsControl ItemsSource="{Binding OutputEncodingCharArray}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock TextAlignment="Center" Text="{Binding}" Width="58" Background="LightGray"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl x:Name="Container" ItemsSource="{Binding LinesCoordinates}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas  Background="AliceBlue"  
                                  VerticalAlignment="Center"
                                  HorizontalAlignment="Left"
                                  Width="{Binding Path=DataContext.CanvasWidth, RelativeSource={RelativeSource AncestorType=Window}}" 
                                  Height="{Binding Path=DataContext.CanvasHeight, RelativeSource={RelativeSource AncestorType=Window}}"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Line X1="{Binding First.X}" Y1="{Binding First.Y}" X2="{Binding Second.X}" Y2="{Binding Second.Y}" Stroke="Black" StrokeThickness="{Binding StrokeThickness}"></Line>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Line X1="{Binding First.X}" Y1="{Binding First.Y}" 
+                                  X2="{Binding Second.X}" Y2="{Binding Second.Y}" 
+                                  Stroke="Black" StrokeThickness="{Binding StrokeThickness}"></Line>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
         </ScrollViewer>
         
         <StackPanel Grid.Row="1" Grid.Column="2">
@@ -55,7 +72,7 @@
             <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="AMI" Content="Bipolar Code AMI" IsChecked="True"></RadioButton>
             <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="BipolarPulse" Content="Bipolar Pulse Code"></RadioButton>
             <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="Manchester" Content="Manchester Code"></RadioButton>
-            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="2B1Q" Content="Potential Code 2B1Q"></RadioButton>
+            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="2B1Q" Content="In developing" IsEnabled="False"></RadioButton>
         </StackPanel>
 
         <ScrollViewer Grid.Row="2" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden">

@@ -33,24 +33,28 @@ namespace SignalCircuitPainter
                        switch (type)
                        {
                            case "NRZ":
+                               SignalProp = PotentialCodeNRZ.GetAllLinesCoordinates;
                                break;
                            case "AMI":
                                SignalProp = BipolarCodeAMI.GetAllLinesCoordinates;
                                break;
                            case "BipolarPulse":
+                               SignalProp = BipolarPulseCode.GetAllLinesCoordinates;
                                break;
                            case "Manchester":
+                               SignalProp = ManchesterCode.GetAllLinesCoordinates;
                                break;
                            case "2B1Q":
                                break;
                            default:
                                break;
                        }
-                       OnPropertyChanged("LinesCoordinates");
+                       if (InputEncoding != null) RefreshChanges();
                    });
             }
         }
 
+        public char[] OutputEncodingCharArray { get; set; }
         public int CanvasWidth { get; set; }
         public int CanvasHeight { get; set; }
 
@@ -63,24 +67,8 @@ namespace SignalCircuitPainter
             set
             {
                 inputEncoding = value;
-                OutputEncoding = BinaryConverterLogic.GetBinaryString(InputEncoding, EncodingProp);
-                OnPropertyChanged("OutputEncoding");
 
-                LinesCoordinates = SignalProp(OutputEncoding);
-
-                CanvasWidth = OutputEncoding.Replace(" ", string.Empty).Length * Overall.HorizontalLineSize;
-                CanvasHeight = Overall.VerticalLineSize * 4;
-
-                int temp = 0;
-                foreach (char c in OutputEncoding.Replace(" ", string.Empty))
-                {
-                    LinesCoordinates.Add(new LineByPoints(new System.Drawing.Point(temp, 0), new System.Drawing.Point(temp, CanvasHeight), 0.5));
-                    temp += Overall.HorizontalLineSize;
-                }
-
-                OnPropertyChanged("LinesCoordinates");
-                OnPropertyChanged("CanvasWidth");
-                OnPropertyChanged("CanvasHeight");
+                RefreshChanges();
             }
         }
 
@@ -114,14 +102,40 @@ namespace SignalCircuitPainter
                            default:
                                break;
                        }
-                       OutputEncoding = BinaryConverterLogic.GetBinaryString(InputEncoding, EncodingProp);
-                       OnPropertyChanged("OutputEncoding");
-                       OnPropertyChanged("LinesCoordinates");
+                       if (InputEncoding != null) RefreshChanges();
                    });
             }
         }
 
+        private void RefreshChanges()
+        {
+            OutputEncoding = BinaryConverterLogic.GetBinaryString(InputEncoding, EncodingProp);
 
+            OutputEncodingCharArray = OutputEncoding.Replace(" ", string.Empty).ToCharArray();
+
+            LinesCoordinates = SignalProp(OutputEncoding);
+
+            CanvasWidth = OutputEncodingCharArray.Length * Overall.HorizontalLineSize;
+            CanvasHeight = Overall.VerticalLineSize * 4;
+
+            CreateLayoutCoordinates();
+
+            OnPropertyChanged("OutputEncoding");
+            OnPropertyChanged("OutputEncodingCharArray");
+            OnPropertyChanged("LinesCoordinates");
+            OnPropertyChanged("CanvasWidth");
+            OnPropertyChanged("CanvasHeight");
+        }
+
+        private void CreateLayoutCoordinates()
+        {
+            int temp = 0;
+            foreach (char c in OutputEncoding.Replace(" ", string.Empty))
+            {
+                LinesCoordinates.Add(new LineByPoints(new System.Drawing.Point(temp, 0), new System.Drawing.Point(temp, CanvasHeight), 0.5));
+                temp += Overall.HorizontalLineSize;
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
