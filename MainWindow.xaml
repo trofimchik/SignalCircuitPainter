@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SignalCircuitPainter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="920" ResizeMode="NoResize">
+        Title="MainWindow" Height="250" Width="920" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <local:ViewModel></local:ViewModel>
     </Window.DataContext>
@@ -16,9 +16,9 @@
             <ColumnDefinition Width="150"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition ></RowDefinition>
-            <RowDefinition Height="7*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="155"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
 
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InputEncoding, UpdateSourceTrigger=PropertyChanged}"></TextBox>
@@ -72,7 +72,7 @@
             <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="AMI" Content="Bipolar Code AMI" IsChecked="True"></RadioButton>
             <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="BipolarPulse" Content="Bipolar Pulse Code"></RadioButton>
             <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="Manchester" Content="Manchester Code"></RadioButton>
-            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="2B1Q" Content="In developing" IsEnabled="False"></RadioButton>
+            <RadioButton GroupName="SignalType" Command="{Binding SetSignalType}" CommandParameter="2B1Q" Content="Potential Code 2B1Q"></RadioButton>
         </StackPanel>
 
         <ScrollViewer Grid.Row="2" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden">

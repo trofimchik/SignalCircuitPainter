@@ -45,6 +45,7 @@ namespace SignalCircuitPainter
                                SignalProp = ManchesterCode.GetAllLinesCoordinates;
                                break;
                            case "2B1Q":
+                               SignalProp = PotentialCode2B1Q.GetAllLinesCoordinates;
                                break;
                            default:
                                break;
@@ -116,7 +117,7 @@ namespace SignalCircuitPainter
             LinesCoordinates = SignalProp(OutputEncoding);
 
             CanvasWidth = OutputEncodingCharArray.Length * Overall.HorizontalLineSize;
-            CanvasHeight = Overall.VerticalLineSize * 4;
+            CanvasHeight = Overall.VerticalLineSize * 6;
 
             CreateLayoutCoordinates();
 
