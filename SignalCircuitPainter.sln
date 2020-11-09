@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalCircuitPainter", "SignalCircuitPainter.csproj", "{085C38AF-D680-4450-9887-61F83EBA6E44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalCircuitPainter", "SignalCircuitPainter.csproj", "{085C38AF-D680-4450-9887-61F83EBA6E44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringToBinaryConverter", "..\StringToBinaryConverter\StringToBinaryConverter.csproj", "{78E2FB73-5294-46F0-98AD-2DD7DA90832B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawingDigitalCodingOnCanvas", "..\DrawingDigitalCodingOnCanvas\DrawingDigitalCodingOnCanvas.csproj", "{68A915A1-905A-4077-AC51-34EFC6CC7C1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{085C38AF-D680-4450-9887-61F83EBA6E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{085C38AF-D680-4450-9887-61F83EBA6E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{085C38AF-D680-4450-9887-61F83EBA6E44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E2FB73-5294-46F0-98AD-2DD7DA90832B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E2FB73-5294-46F0-98AD-2DD7DA90832B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E2FB73-5294-46F0-98AD-2DD7DA90832B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E2FB73-5294-46F0-98AD-2DD7DA90832B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A915A1-905A-4077-AC51-34EFC6CC7C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A915A1-905A-4077-AC51-34EFC6CC7C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A915A1-905A-4077-AC51-34EFC6CC7C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A915A1-905A-4077-AC51-34EFC6CC7C1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
